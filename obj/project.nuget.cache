@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "QJl0pQ6NSlXLG5n27en+6eiV3dG1jgeS7JVziLlGKKZ5tbZiKD55z7sZuJ/hdxvMgh63ID7jNePnVYDZOIhLcg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\KiwiM\\Documents\\My Games\\Terraria\\ModLoader\\Beta\\Mod Sources\\TooManyTabs\\TooManyTabs.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\KiwiM\\.nuget\\packages\\tmodloader.codeassist\\0.1.3\\tmodloader.codeassist.0.1.3.nupkg.sha512"
+  ],
+  "logs": []
+}

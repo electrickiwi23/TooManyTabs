@@ -1,0 +1,3 @@
+displayName = Too Many Tabs
+author = ElectricKiwi
+version = 0.1
