@@ -10,32 +10,35 @@ namespace TooManyTabs
 {
     class TMTSystem : ModSystem
     {
-        internal UserInterface menuUserInterface;
-        internal SearchMenu searchMenu;
+        public static UserInterface menuUserInterface;
+        public static SearchMenu searchMenu;
+        GameTime _lastUpdatedGameTime;
+
+
+
 
         public override void OnWorldLoad()
         {
             if (!Main.dedServ)
             {
-
-
-                searchMenu = new SearchMenu();
-                searchMenu.Activate();
-                menuUserInterface = new UserInterface();
-                menuUserInterface.SetState(searchMenu);
-
+               
 
 
             }
         }
 
+        
+
         public override void UpdateUI(GameTime gameTime)
         {
+            _lastUpdatedGameTime = gameTime;
+    
             if (SearchMenu.Visible)
             {
-                Main.NewText("egg");
+         
                 menuUserInterface?.Update(gameTime);
             }
+            
   
         }
 
@@ -49,7 +52,8 @@ namespace TooManyTabs
 					delegate {
 						if (SearchMenu.Visible)
 						{
-							menuUserInterface.Draw(Main.spriteBatch, new GameTime());
+                       
+                            menuUserInterface.Draw(Main.spriteBatch, _lastUpdatedGameTime);
 						}
 						return true;
 					},
