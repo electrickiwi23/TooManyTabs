@@ -15,7 +15,9 @@ namespace TooManyTabs.UI
 		public override void MouseDown(UIMouseEvent evt)
 		{
 			base.MouseDown(evt);
-			DragStart(evt);
+			if (evt.Target==this){
+				DragStart(evt);
+			}
 		}
 
 		public override void MouseUp(UIMouseEvent evt)
@@ -32,6 +34,7 @@ namespace TooManyTabs.UI
 
 		private void DragEnd(UIMouseEvent evt)
 		{
+			if (dragging){
 			Vector2 end = evt.MousePosition;
 			dragging = false;
 
@@ -39,6 +42,7 @@ namespace TooManyTabs.UI
 			Top.Set(end.Y - offset.Y, 0f);
 
 			Recalculate();
+			}
 		}
 
 		public override void Update(GameTime gameTime)

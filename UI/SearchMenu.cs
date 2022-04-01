@@ -14,16 +14,16 @@ namespace TooManyTabs.UI
 {
     class SearchMenu : UIState
     {
-        public TestButton playButton;
         public DragableUIPanel panel;
-		private UISearchBar searchBar;
-		private UIPanel searchBox;
+		public UISearchBar searchBar;
+		public UIPanel searchBox;
 		private UIScrollbar scrollbar;
-		private bool clickedSearch = false;
+		public bool clickedSearch = false;
 		private bool clickedAnything = false;
 		private List<UIItemIcon> itemIcons;
 		
-		private UIDynamicItemCollection grid;
+		public static string currentSearch = "";
+		private UIItemGrid grid;
 
 		TMTItemSlot slot = null;
 
@@ -39,7 +39,7 @@ namespace TooManyTabs.UI
 			// This means that this class, ExampleUI, will be our Parent. Since ExampleUI is a UIState, the Left and Top are relative to the top left of the screen.
 			panel.Left.Set(400f, 0f);
 			panel.Top.Set(100f, 0f);
-			panel.Width.Set(358f, 0f);
+			panel.Width.Set(366f, 0f);
 			panel.Height.Set(540f, 0f);
 			panel.BackgroundColor = new Color(0, 75, 156,160);
 			Append(panel);
@@ -71,8 +71,8 @@ namespace TooManyTabs.UI
 			UIPanel resultsPanel = new UIPanel();
 			resultsPanel.SetPadding(2);
 			resultsPanel.Top.Set(32, 0f);
-			resultsPanel.Width.Set(280,0f);
-			resultsPanel.Height.Set(392,0f);
+			resultsPanel.Width.Set(324,0f);
+			resultsPanel.Height.Set(492,0f);
 			resultsPanel.BackgroundColor = new Color(1,1,1,0);
 			
 			panel.Append(resultsPanel);
@@ -81,7 +81,8 @@ namespace TooManyTabs.UI
 			scrollbar = new UIScrollbar();
 			scrollbar.Top.Set(36, 0f);
 			scrollbar.HAlign = 1f;
-			scrollbar.Height.Set(384,0f);
+			scrollbar.Height.Set(484,0f);
+
 			
 
 			panel.Append(scrollbar);
@@ -96,9 +97,13 @@ namespace TooManyTabs.UI
 
 			searchBox.Append(clearButton);
 
-			grid = new UIDynamicItemCollection();
-			grid.Width.Set(268,0f);
+			grid = new UIItemGrid();
+			grid.Width.Set(312,0f);
 			grid.Height.Set(392,0f);
+			grid.OnClick += OnItemClicked;
+			grid.OnRightClick += OnItemRightClicked;
+
+		
 		
 
 
@@ -110,14 +115,6 @@ namespace TooManyTabs.UI
 			
 
 			resultsPanel.Append(list);
-
-
-
-
-
-
-
-
 
 			searchBar.SetContents("");
 
@@ -134,7 +131,6 @@ namespace TooManyTabs.UI
             {
 				if (empty||item.Name.ToLower().Contains(name.ToLower())) {
 					filteredItems.Add(item.type);
-					
                 }
             }
 			
@@ -143,6 +139,28 @@ namespace TooManyTabs.UI
 			return filteredItems;
 
         }
+
+		private void OnItemClicked(UIMouseEvent evt, UIElement listeningElement)
+		{
+			Item clicked = grid.getItemAtMouse();
+			if (clicked!=null){
+				
+				Vector2 location = new Vector2(panel.Left.Pixels,panel.Top.Pixels);
+				TMTSystem.menuUserInterface.SetState(new RecipeMenu(clicked, false,location));
+
+			}
+		}
+
+		private void OnItemRightClicked(UIMouseEvent evt,UIElement listeningElement)
+		{
+            Item clicked = grid.getItemAtMouse();
+			if (clicked!=null){
+				
+				Vector2 location = new Vector2(panel.Left.Pixels,panel.Top.Pixels);
+				TMTSystem.menuUserInterface.SetState(new RecipeMenu(clicked, true,location));
+
+			}
+		}
 
 		private void CloseButtonClicked(UIMouseEvent evt, UIElement listeningElement)
 		{ 
@@ -165,7 +183,7 @@ namespace TooManyTabs.UI
 			searchBar.SetContents("");
 		}
 
-		private void OnStartTakingInput()
+		public void OnStartTakingInput()
 		{
 			searchBox.BorderColor = Main.OurFavoriteColor;
 		}
@@ -182,7 +200,7 @@ namespace TooManyTabs.UI
 
 		private void OnSearchContentsChanged(string contents)
 		{
-
+			currentSearch = contents;
 			List<int> items = UpdateSearchCriteria(contents);
 			grid.SetContentsToShow(items);
 			
@@ -206,6 +224,8 @@ namespace TooManyTabs.UI
 			clickedSearch = false;
 
         }
+
+
 
    
 
